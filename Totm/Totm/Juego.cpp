@@ -1,4 +1,5 @@
 #include"Mapa.h"
+#include"glut.h"
 
 int unit_test_crear_mapa() {
 	Mapa mapita(5, 5);
@@ -27,11 +28,11 @@ int unit_test_asignar_casilla() {
 
 
 
-int main() {
-	
-	//if (unit_test_crear_mapa) { std::cout << "fallo en crear mapa" << std::endl; }
-	if (unit_test_asignar_casilla()) { std::cout << "fallo en asignar casilla" << std::endl; }
-
-	system("PAUSE");
-	return 0;
-}
+//int main() {
+//	
+//	//if (unit_test_crear_mapa) { std::cout << "fallo en crear mapa" << std::endl; }
+//	if (unit_test_asignar_casilla()) { std::cout << "fallo en asignar casilla" << std::endl; }
+//
+//	system("PAUSE");
+//	return 0;
+//}
