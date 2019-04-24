@@ -1,4 +1,7 @@
 #include "Mapa.h"
+#include <fstream>
+#include <sstream>
+#include <string>
 
 
 Mapa::Mapa(int N,int M) : N(N), M(M)
@@ -15,6 +18,49 @@ Mapa::Mapa(int N,int M) : N(N), M(M)
 			else { SetLibre(i,j); }
 		}
 	}
+}
+
+Mapa::Mapa(std::string filename)
+{
+	std::ifstream infile;
+	std::string buffer;
+	
+	infile.open(filename);
+
+	if (!infile) {
+		std::cout << "No se ha encontrado el archivo" << std::endl;
+		return;
+	}
+	infile >> buffer >> N;
+	infile >> buffer >> M;
+	
+	casillas = new Casilla*[N];
+	for (int i = 0; i < N; i++) {
+		casillas[i] = new Casilla[M];
+	}
+	
+	//Limpia el flujo de entrada
+	infile.ignore();
+		for (int i = 0; i < N; i++) {
+			//lee una linea del fichero y pone las casillas en el estado que le corresponda
+			std::getline(infile, buffer);
+			for (int j = 0; j < N; j++) {
+				
+				if (buffer[2 * j] == 'L') {
+					SetLibre(i, j);
+				}
+				else if(buffer[2 * j] == 'P'){
+					SetPared(i, j);
+				}
+				else if (buffer[2 * j] == 'J') {
+					SetJugador(i, j);
+				}
+			}	
+		}
+	
+
+	//cierra el fichero
+	infile.close();
 }
 
 
@@ -85,7 +131,7 @@ void Mapa::freeCasilla(int N, int M)
 
 
 //comprueba si es pared
-bool Mapa::isPared(int N, int M)
+bool Mapa::isPared(int N, int M) const
 {
 	if (casillas[N][M].isPared()) { return true; }
 	return false;
@@ -93,7 +139,7 @@ bool Mapa::isPared(int N, int M)
 
 
 //comprueba si es libre
-bool Mapa::isLibre(int N, int M)
+bool Mapa::isLibre(int N, int M) const
 {
 	if (casillas[N][M].isLibre()) { return true; }
 	return false;
@@ -101,17 +147,27 @@ bool Mapa::isLibre(int N, int M)
 
 
 //comprueba si es jugador
-bool Mapa::isJugador(int N, int M)
+bool Mapa::isJugador(int N, int M) const
 {
 	if (casillas[N][M].isJugador()) { return true; }
 	return false;
 }
 
+int Mapa::getN() const
+{
+	return N;
+}
+
+int Mapa::getM() const
+{
+	return M;
+}
+
 
 //funcion que imprime el mapa en el flujo
-std::ostream & Mapa::print(std::ostream & o)
+std::ostream & Mapa::print(std::ostream & o) const
 {
-	o << "N " << N << std::endl << "M " << M << std::endl << std::endl;
+	o << "N " << N << std::endl << "M " << M << std::endl;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			if (isPared(i,j)) { o << "P"; }
