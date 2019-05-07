@@ -1,25 +1,22 @@
 #pragma once
-#include"Pared.h"
-#include"Libre.h"
+
 #include"Jugador.h"
 #include<iostream>
 
+struct coordenadas_t {
+	int x;
+	int y;
+};
+
 class Casilla
 {
-	Pared* pared;
-	Libre* libre;
-	Jugador* jugador;
+private:
+	int estado;// 0 es libre y 1 pared
+	struct coordenadas_t coordenadas;
 
 public:
-	Casilla();
-	~Casilla();
-
 	void SetPared();
 	void SetLibre();
-	void SetJugador();
-	void freeCasilla();
-	bool isPared();
 	bool isLibre();
-	bool isJugador();
 };
 

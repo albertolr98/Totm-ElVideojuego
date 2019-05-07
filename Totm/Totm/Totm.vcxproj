@@ -133,21 +133,18 @@
   <ItemGroup>
     <ClInclude Include="Casilla.h" />
     <ClInclude Include="Jugador.h" />
-    <ClInclude Include="Libre.h" />
     <ClInclude Include="Mapa.h" />
-    <ClInclude Include="Pared.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Casilla.cpp" />
     <ClCompile Include="Juego.cpp" />
     <ClCompile Include="Jugador.cpp" />
-    <ClCompile Include="Libre.cpp" />
     <ClCompile Include="Mapa.cpp" />
-    <ClCompile Include="Pared.cpp" />
     <ClCompile Include="PruebaGrafica.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="mifichero.txt" />
+    <Text Include="mifichero2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

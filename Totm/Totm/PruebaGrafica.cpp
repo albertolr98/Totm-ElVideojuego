@@ -7,7 +7,7 @@
 
 #define ANCHO_BLOQUE 10
 double acercar = 100;
-Mapa mapa("mifichero.txt");
+Mapa mapa("mifichero2.txt");
 static double x = (mapa.getM()*ANCHO_BLOQUE) / 2;
 static double y = (-mapa.getN()*ANCHO_BLOQUE) / 2;
 
@@ -86,20 +86,14 @@ void OnDraw(void)
 				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
 			}
-			else if (mapa.isPared(i, j)) {
+			else if (!mapa.isLibre(i, j)) {
 				glColor3ub(150, 0, 255);
 				glVertex2f(static_cast<float>(j*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
 			}
-			else if (mapa.isJugador(i, j)) {
-				glColor3ub(0, 255, 255);
-				glVertex2f(static_cast<float>(j*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
-				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
-				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
-				glVertex2f(static_cast<float>((j)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
-			}
+			
 		}
 	}
 	glEnd();
