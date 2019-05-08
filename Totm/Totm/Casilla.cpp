@@ -18,4 +18,9 @@ bool Casilla::isLibre()
 	return !estado;
 }
 
+void Casilla::asignarCoord(coordenadas_t pos)
+{
+	coordenadas = pos;
+}
+
 

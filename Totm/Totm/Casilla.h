@@ -3,10 +3,7 @@
 #include"Jugador.h"
 #include<iostream>
 
-struct coordenadas_t {
-	int x;
-	int y;
-};
+
 
 class Casilla
 {
@@ -18,5 +15,7 @@ public:
 	void SetPared();
 	void SetLibre();
 	bool isLibre();
+	void asignarCoord(coordenadas_t pos);
+
 };
 

@@ -1,4 +1,5 @@
 #include"Mapa.h"
+#include<string>
 
 //es importante que glut.h vaya la ultima
 #include "glut.h"
@@ -8,8 +9,8 @@
 #define ANCHO_BLOQUE 10
 double acercar = 100;
 Mapa mapa("mifichero2.txt");
-static double x = (mapa.getM()*ANCHO_BLOQUE) / 2;
-static double y = (-mapa.getN()*ANCHO_BLOQUE) / 2;
+coordenadas_t ojo = mapa.getPosJugador();
+
 
 
 //los callback, funciones que seran llamadas automaticamente por la glut
@@ -65,8 +66,8 @@ void OnDraw(void)
 	glLoadIdentity();
 
 
-	gluLookAt(x, y, 300,
-		x, y, 0.0, 
+	gluLookAt(ojo.y*ANCHO_BLOQUE, -ojo.x*ANCHO_BLOQUE, 300,
+		ojo.y*ANCHO_BLOQUE, -ojo.x*ANCHO_BLOQUE, 0.0,
 		0.0, 1.0, 0.0); //PARA MIRAR AL CENTRO DE LA ESCENA
 
 	//aqui es donde hay que poner el código de dibujo
@@ -81,6 +82,10 @@ void OnDraw(void)
 		for (int j = 0; j < mapa.getM(); j++) {
 			if (mapa.isLibre(i, j)) {
 				glColor3ub(255, 255, 255);
+				if (mapa.isJugador(i, j)){
+					glColor3ub(0, 255, 255);
+				}
+
 				glVertex2f(static_cast<float>(j*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
@@ -88,6 +93,7 @@ void OnDraw(void)
 			}
 			else if (!mapa.isLibre(i, j)) {
 				glColor3ub(150, 0, 255);
+				
 				glVertex2f(static_cast<float>(j*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
@@ -109,16 +115,16 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	//poner aqui el código de teclado
 	switch (key) {
 	case 'a':
-		x--;
+		
 		break;
 	case 's':
-		y--;
+		
 		break;
 	case 'd':
-		x++;
+		
 		break;
 	case 'w':
-		y++;
+		
 		break;
 	}
 	glutPostRedisplay();
@@ -126,17 +132,21 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 void OnSpecialKeyboardDown(int key, int x_t, int y_t) {
 	
 	switch (key) {
-	case GLUT_KEY_UP:
-		y++;
-		break;
-	case GLUT_KEY_DOWN:
-		y--;
-		break;
 	case GLUT_KEY_RIGHT:
-		x++;
+		
+		mapa.dirigeJugador(ARRIBA);
 		break;
 	case GLUT_KEY_LEFT:
-		x--;
+	
+		mapa.dirigeJugador(ABAJO);
+		break;
+	case GLUT_KEY_DOWN:
+		
+		mapa.dirigeJugador(DERECHA);
+		break;
+	case GLUT_KEY_UP:
+	
+		mapa.dirigeJugador(IZQUIERDA);
 		break;
 	}
 	glutPostRedisplay();
@@ -144,7 +154,8 @@ void OnSpecialKeyboardDown(int key, int x_t, int y_t) {
 
 void OnTimer(int value)
 {
-	
-	glutTimerFunc(25, OnTimer, 0);
+	mapa.MoverJugador();
+	ojo = mapa.getPosJugador();
+	glutTimerFunc(15, OnTimer, 0);
 	glutPostRedisplay();
 }

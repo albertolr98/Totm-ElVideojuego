@@ -14,8 +14,12 @@ Mapa::Mapa(int N,int M) : N(N), M(M)
 	//asignamos todas las casillas como libres salvo los bordes
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			if (i == 0 || i == N-1 || j == 0 || j == M-1) { SetPared(i,j); }
-			else { SetLibre(i,j); }
+
+			coordenadas_t c(i, j);
+			casillas[i][j].asignarCoord(c);
+
+			if (i == 0 || i == N - 1 || j == 0 || j == M - 1) {  SetPared(i, j);  }
+			else {  SetLibre(i,j); }
 		}
 	}
 }
@@ -44,13 +48,19 @@ Mapa::Mapa(std::string filename)
 		for (int i = 0; i < N; i++) {
 			//lee una linea del fichero y pone las casillas en el estado que le corresponda
 			std::getline(infile, buffer);
-			for (int j = 0; j < N; j++) {
-				
+			for (int j = 0; j < M; j++) {
+				coordenadas_t c(i, j);
+				casillas[i][j].asignarCoord(c);
+
 				if (buffer[2 * j] == 'L') {
 					SetLibre(i, j);
 				}
 				else if(buffer[2 * j] == 'P'){
 					SetPared(i, j);
+				}
+				else if (buffer[2 * j] == 'J') {
+					SetLibre(i, j);
+					jugador.setPos(i, j);//OJO QUE LO HEMOS CAMBIADO
 				}
 				
 			}	
@@ -114,6 +124,13 @@ bool Mapa::isLibre(int N, int M) const
 	return false;
 }
 
+bool Mapa::isJugador(int N, int M)
+{
+	coordenadas_t aux = jugador.getPos();
+	if (aux.x==N&&aux.y==M) { return true; }
+	return false;
+}
+
 
 
 
@@ -125,6 +142,50 @@ int Mapa::getN() const
 int Mapa::getM() const
 {
 	return M;
+}
+
+void Mapa::MoverJugador()
+{
+	coordenadas_t aux = jugador.getPos();
+	
+	if (jugador.getDir() == ARRIBA) {
+		if (isLibre(aux.x, aux.y + 1))
+			jugador.Mover();
+		else {
+			jugador.para(true);
+		}
+	}
+	else if (jugador.getDir() == ABAJO) {
+		if (isLibre(aux.x, aux.y - 1))
+			jugador.Mover();
+		else {
+			jugador.para(true);
+		}
+	}
+	else if (jugador.getDir() == DERECHA) {
+		if (isLibre(aux.x + 1, aux.y))
+			jugador.Mover();
+		else {
+			jugador.para(true);
+		}
+	}
+	else if (jugador.getDir() == IZQUIERDA) {
+		if (isLibre(aux.x - 1, aux.y))
+			jugador.Mover();
+		else {
+			jugador.para(true);
+		}
+	}
+}
+
+coordenadas_t Mapa::getPosJugador()
+{
+	return jugador.getPos();
+}
+
+void Mapa::dirigeJugador(direccion_t direccion)
+{
+	if (jugador.isParado()) { jugador.setDir(direccion); jugador.para(false); }
 }
 
 

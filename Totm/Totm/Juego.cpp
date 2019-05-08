@@ -32,9 +32,9 @@ int unit_test_asignar_casilla() {
 	return 0;
 }
 int unit_test_escribir_fichero() {
-	std::ofstream fichero("mifichero.txt");
+	std::ofstream fichero("mificheroSanti2.txt");
 	if (!fichero) { return 1; }
-	Mapa mapa(30, 30);
+	Mapa mapa(50, 20);
 	mapa.print(fichero);
 	fichero.close();
 	return 0;
@@ -62,10 +62,10 @@ int unit_test_leer_fichero() {
 
 int maint() {
 	
-	/*if (unit_test_crear_mapa()) { std::cout << "fallo al crear mapa" << std::endl; }
+	if (unit_test_crear_mapa()) { std::cout << "fallo al crear mapa" << std::endl; }
 	if (unit_test_asignar_casilla()) { std::cout << "fallo en asignar casilla" << std::endl; }
 	if(unit_test_escribir_fichero()){ std::cout << "fallo al intentar escribir fichero" << std::endl; }
-	if(unit_test_leer_fichero()){ std::cout << "fallo al intentar leer fichero" << std::endl; }*/
+	if(unit_test_leer_fichero()){ std::cout << "fallo al intentar leer fichero" << std::endl; }
 	
 	system("PAUSE");
 	return 0;

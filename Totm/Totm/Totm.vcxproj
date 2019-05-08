@@ -145,6 +145,8 @@
   <ItemGroup>
     <Text Include="mifichero.txt" />
     <Text Include="mifichero2.txt" />
+    <Text Include="nivel1.txt" />
+    <Text Include="mificheroSanti2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

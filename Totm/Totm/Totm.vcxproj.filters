@@ -49,5 +49,11 @@
     <Text Include="mifichero2.txt">
       <Filter>Archivos de recursos</Filter>
     </Text>
+    <Text Include="mificheroSanti2.txt">
+      <Filter>Archivos de recursos</Filter>
+    </Text>
+    <Text Include="nivel1.txt">
+      <Filter>Archivos de recursos</Filter>
+    </Text>
   </ItemGroup>
 </Project>
