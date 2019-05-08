@@ -18,10 +18,10 @@
     <ClInclude Include="Mapa.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Casilla.h">
+    <ClInclude Include="Jugador.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Jugador.h">
+    <ClInclude Include="Elemento.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,6 +53,9 @@
       <Filter>Archivos de recursos</Filter>
     </Text>
     <Text Include="nivel1.txt">
+      <Filter>Archivos de recursos</Filter>
+    </Text>
+    <Text Include="nivel2.txt">
       <Filter>Archivos de recursos</Filter>
     </Text>
   </ItemGroup>

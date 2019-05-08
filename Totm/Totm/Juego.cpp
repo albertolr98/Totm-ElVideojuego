@@ -18,13 +18,13 @@ int unit_test_crear_mapa() {
 int unit_test_asignar_casilla() {
 	Mapa mapita(20, 20);
 
-	mapita.SetPared(0, 0);
+	mapita.setPared(0, 0);
 	if (mapita.isLibre(0, 0)) { return 1; }
 
-	mapita.SetLibre(0, 0);
+	mapita.setLibre(0, 0);
 	if (!mapita.isLibre(0, 0)) { return 1; }
 
-	mapita.SetLibre(0, 0);
+	mapita.setLibre(0, 0);
 	if (!mapita.isLibre(0, 0)) { return 1; }
 
 	
@@ -32,7 +32,7 @@ int unit_test_asignar_casilla() {
 	return 0;
 }
 int unit_test_escribir_fichero() {
-	std::ofstream fichero("mificheroSanti2.txt");
+	std::ofstream fichero("nivel2.txt");
 	if (!fichero) { return 1; }
 	Mapa mapa(50, 20);
 	mapa.print(fichero);

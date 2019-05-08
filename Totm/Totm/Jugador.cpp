@@ -39,15 +39,15 @@ direccion_t Jugador::getDir()
 void Jugador::Mover()
 {
 	if (direccion == ARRIBA) {				//ARRIBA = 0
-		posicion.y++;
-	}
-	else if (direccion == ABAJO) {			//ABAJO = 1
-		posicion.y--;
-	}
-	else if (direccion == IZQUIERDA) {		//IZQUIERDA = 2
 		posicion.x--;
 	}
-	else if (direccion == DERECHA) {		//DERECHA = 3
+	else if (direccion == ABAJO) {			//ABAJO = 1
 		posicion.x++;
+	}
+	else if (direccion == IZQUIERDA) {		//IZQUIERDA = 2
+		posicion.y--;
+	}
+	else if (direccion == DERECHA) {		//DERECHA = 3
+		posicion.y++;
 	}
 }

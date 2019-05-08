@@ -1,19 +1,19 @@
 #pragma once
-#include"Casilla.h"
+#include"Elemento.h"
 #include<iostream>
 class Mapa
 {
  private:
 	int N;
 	int M;
-	Casilla** casillas; 
+	Elemento** casillas; 
 	Jugador jugador;
  public:
 	Mapa(int N, int M);
 	Mapa(std::string);
 	~Mapa();
-	void SetPared(int N, int M);
-	void SetLibre(int N, int M);
+	void setPared(int N, int M);
+	void setLibre(int N, int M);
 	bool isLibre(int N, int M) const;
 	bool isJugador(int N, int M);
 	int getN() const;

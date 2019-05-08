@@ -1,24 +1,24 @@
-#include "Casilla.h"
+#include "Elemento.h"
 
 
 
-void Casilla::SetPared()
+void Elemento::setPared()
 {
 	estado = 1;
 }
 
-void Casilla::SetLibre()
+void Elemento::setLibre()
 {
 	estado = 0;
 }
 
 
-bool Casilla::isLibre()
+bool Elemento::isLibre()
 {
 	return !estado;
 }
 
-void Casilla::asignarCoord(coordenadas_t pos)
+void Elemento::asignarCoord(coordenadas_t pos)
 {
 	coordenadas = pos;
 }

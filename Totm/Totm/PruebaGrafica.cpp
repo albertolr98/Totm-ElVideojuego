@@ -7,9 +7,13 @@
 
 
 #define ANCHO_BLOQUE 10
-double acercar = 100;
-Mapa mapa("mifichero2.txt");
-coordenadas_t ojo = mapa.getPosJugador();
+#define NUM_NIVELES 3
+
+Mapa* niveles[NUM_NIVELES];
+coordenadas_t ojo[NUM_NIVELES];
+int nivelactual = 0;
+const std::string nombreniveles[] = { "nivel1.txt","nivel2.txt","mifichero2.txt" };
+
 
 
 
@@ -26,7 +30,7 @@ void OnSpecialKeyboardDown(int key, int x_t, int y_t);
 
 int main(int argc, char* argv[])
 {
-
+	
 	//Inicializar el gestor de ventanas GLUT
 	//y crear la ventana
 	glutInit(&argc, argv);
@@ -48,7 +52,13 @@ int main(int argc, char* argv[])
 	glutSpecialFunc(OnSpecialKeyboardDown);
 	glutKeyboardFunc(OnKeyboardDown);
 
+
+	//inicializacion de los niveles
 	
+	for (int i = 0; i < NUM_NIVELES; i++) {
+		niveles[i] = new Mapa(nombreniveles[i]);
+		ojo[i] = niveles[i]->getPosJugador();
+	}
 
 	
 	//pasarle el control a GLUT,que llamara a los callbacks
@@ -66,8 +76,8 @@ void OnDraw(void)
 	glLoadIdentity();
 
 
-	gluLookAt(ojo.y*ANCHO_BLOQUE, -ojo.x*ANCHO_BLOQUE, 300,
-		ojo.y*ANCHO_BLOQUE, -ojo.x*ANCHO_BLOQUE, 0.0,
+	gluLookAt(ojo[nivelactual].y*ANCHO_BLOQUE, -ojo[nivelactual].x*ANCHO_BLOQUE, 300,
+		ojo[nivelactual].y*ANCHO_BLOQUE, -ojo[nivelactual].x*ANCHO_BLOQUE, 0.0,
 		0.0, 1.0, 0.0); //PARA MIRAR AL CENTRO DE LA ESCENA
 
 	//aqui es donde hay que poner el código de dibujo
@@ -78,11 +88,11 @@ void OnDraw(void)
 	
 	glBegin(GL_QUADS);
 
-	for (int i = 0; i < mapa.getN(); i++) {
-		for (int j = 0; j < mapa.getM(); j++) {
-			if (mapa.isLibre(i, j)) {
+	for (int i = 0; i < niveles[nivelactual]->getN(); i++) {
+		for (int j = 0; j < niveles[nivelactual]->getM(); j++) {
+			if (niveles[nivelactual]->isLibre(i, j)) {
 				glColor3ub(255, 255, 255);
-				if (mapa.isJugador(i, j)){
+				if (niveles[nivelactual]->isJugador(i, j)){
 					glColor3ub(0, 255, 255);
 				}
 
@@ -91,7 +101,7 @@ void OnDraw(void)
 				glVertex2f(static_cast<float>((j + 1)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
 				glVertex2f(static_cast<float>((j)*ANCHO_BLOQUE), static_cast<float>(-(i)* ANCHO_BLOQUE));
 			}
-			else if (!mapa.isLibre(i, j)) {
+			else if (!niveles[nivelactual]->isLibre(i, j)) {
 				glColor3ub(150, 0, 255);
 				
 				glVertex2f(static_cast<float>(j*ANCHO_BLOQUE), static_cast<float>(-(i + 1) * ANCHO_BLOQUE));
@@ -114,16 +124,19 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
 	switch (key) {
-	case 'a':
+	case '1':
+		nivelactual = 0;
 		
 		break;
-	case 's':
-		
+	case '2':
+		nivelactual = 1;
 		break;
-	case 'd':
-		
+	case '3':
+		nivelactual = 2;
 		break;
-	case 'w':
+	case 'R':
+		delete niveles[nivelactual];
+		niveles[nivelactual]= new Mapa(nombreniveles[nivelactual]);
 		
 		break;
 	}
@@ -133,20 +146,20 @@ void OnSpecialKeyboardDown(int key, int x_t, int y_t) {
 	
 	switch (key) {
 	case GLUT_KEY_RIGHT:
+		niveles[nivelactual]->dirigeJugador(DERECHA);
 		
-		mapa.dirigeJugador(ARRIBA);
 		break;
 	case GLUT_KEY_LEFT:
-	
-		mapa.dirigeJugador(ABAJO);
+		niveles[nivelactual]->dirigeJugador(IZQUIERDA);
+		
 		break;
 	case GLUT_KEY_DOWN:
+		niveles[nivelactual]->dirigeJugador(ABAJO);
 		
-		mapa.dirigeJugador(DERECHA);
 		break;
 	case GLUT_KEY_UP:
-	
-		mapa.dirigeJugador(IZQUIERDA);
+		niveles[nivelactual]->dirigeJugador(ARRIBA);
+		
 		break;
 	}
 	glutPostRedisplay();
@@ -154,8 +167,8 @@ void OnSpecialKeyboardDown(int key, int x_t, int y_t) {
 
 void OnTimer(int value)
 {
-	mapa.MoverJugador();
-	ojo = mapa.getPosJugador();
+	niveles[nivelactual]->MoverJugador();
+	ojo[nivelactual] = niveles[nivelactual]->getPosJugador();
 	glutTimerFunc(15, OnTimer, 0);
 	glutPostRedisplay();
 }

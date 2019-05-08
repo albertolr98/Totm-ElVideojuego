@@ -7,9 +7,9 @@
 Mapa::Mapa(int N,int M) : N(N), M(M)
 {
 	//reservamos memoria para las casillas
-	casillas = new Casilla*[N];
+	casillas = new Elemento*[N];
 	for (int i = 0; i < N; i++) {
-		casillas[i] = new Casilla[M];
+		casillas[i] = new Elemento[M];
 	}
 	//asignamos todas las casillas como libres salvo los bordes
 	for (int i = 0; i < N; i++) {
@@ -18,8 +18,8 @@ Mapa::Mapa(int N,int M) : N(N), M(M)
 			coordenadas_t c(i, j);
 			casillas[i][j].asignarCoord(c);
 
-			if (i == 0 || i == N - 1 || j == 0 || j == M - 1) {  SetPared(i, j);  }
-			else {  SetLibre(i,j); }
+			if (i == 0 || i == N - 1 || j == 0 || j == M - 1) {  setPared(i, j);  }
+			else {  setLibre(i,j); }
 		}
 	}
 }
@@ -38,9 +38,9 @@ Mapa::Mapa(std::string filename)
 	infile >> buffer >> N;
 	infile >> buffer >> M;
 	
-	casillas = new Casilla*[N];
+	casillas = new Elemento *[N];
 	for (int i = 0; i < N; i++) {
-		casillas[i] = new Casilla[M];
+		casillas[i] = new Elemento[M];
 	}
 	
 	//Limpia el flujo de entrada
@@ -53,14 +53,14 @@ Mapa::Mapa(std::string filename)
 				casillas[i][j].asignarCoord(c);
 
 				if (buffer[2 * j] == 'L') {
-					SetLibre(i, j);
+					setLibre(i, j);
 				}
 				else if(buffer[2 * j] == 'P'){
-					SetPared(i, j);
+					setPared(i, j);
 				}
 				else if (buffer[2 * j] == 'J') {
-					SetLibre(i, j);
-					jugador.setPos(i, j);//OJO QUE LO HEMOS CAMBIADO
+					setLibre(i, j);
+					jugador.setPos(i, j);
 				}
 				
 			}	
@@ -88,12 +88,12 @@ Mapa::~Mapa()
 
 
 //pone en pared la casilla
-void Mapa::SetPared(int N, int M)
+void Mapa::setPared(int N, int M)
 {
 	if (isLibre(N,M)) {	//si la casilla no es pared
 
 		
-		casillas[N][M].SetPared();		//asigna pared
+		casillas[N][M].setPared();		//asigna pared
 		return;
 	}
 
@@ -103,11 +103,11 @@ void Mapa::SetPared(int N, int M)
 
 
 //pone en libre la casilla
-void Mapa::SetLibre(int N, int M)
+void Mapa::setLibre(int N, int M)
 {
 	if (!isLibre(N,M)) {	//si la casilla no es libre
 
-		casillas[N][M].SetLibre();		//asigna libre
+		casillas[N][M].setLibre();		//asigna libre
 		return;
 	}
 
@@ -124,6 +124,8 @@ bool Mapa::isLibre(int N, int M) const
 	return false;
 }
 
+
+//comprueba si la casilla es jugador
 bool Mapa::isJugador(int N, int M)
 {
 	coordenadas_t aux = jugador.getPos();
@@ -144,33 +146,35 @@ int Mapa::getM() const
 	return M;
 }
 
+
+//función que se encarga de mover el jugador si esta libre la casilla
 void Mapa::MoverJugador()
 {
 	coordenadas_t aux = jugador.getPos();
 	
 	if (jugador.getDir() == ARRIBA) {
-		if (isLibre(aux.x, aux.y + 1))
+		if (isLibre(aux.x-1, aux.y))
 			jugador.Mover();
 		else {
 			jugador.para(true);
 		}
 	}
 	else if (jugador.getDir() == ABAJO) {
-		if (isLibre(aux.x, aux.y - 1))
+		if (isLibre(aux.x+1, aux.y))
 			jugador.Mover();
 		else {
 			jugador.para(true);
 		}
 	}
 	else if (jugador.getDir() == DERECHA) {
-		if (isLibre(aux.x + 1, aux.y))
+		if (isLibre(aux.x, aux.y+1))
 			jugador.Mover();
 		else {
 			jugador.para(true);
 		}
 	}
 	else if (jugador.getDir() == IZQUIERDA) {
-		if (isLibre(aux.x - 1, aux.y))
+		if (isLibre(aux.x , aux.y-1))
 			jugador.Mover();
 		else {
 			jugador.para(true);
@@ -183,6 +187,8 @@ coordenadas_t Mapa::getPosJugador()
 	return jugador.getPos();
 }
 
+
+//si el jugador ha tocado pared recibe la direccion
 void Mapa::dirigeJugador(direccion_t direccion)
 {
 	if (jugador.isParado()) { jugador.setDir(direccion); jugador.para(false); }

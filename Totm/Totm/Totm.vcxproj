@@ -131,7 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Casilla.h" />
+    <ClInclude Include="Elemento.h" />
     <ClInclude Include="Jugador.h" />
     <ClInclude Include="Mapa.h" />
   </ItemGroup>
@@ -147,6 +147,7 @@
     <Text Include="mifichero2.txt" />
     <Text Include="nivel1.txt" />
     <Text Include="mificheroSanti2.txt" />
+    <Text Include="nivel2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

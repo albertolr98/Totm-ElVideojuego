@@ -11,7 +11,7 @@ struct coordenadas_t {
 
 class Jugador
 {
-	enum direccion_t direccion;
+	enum direccion_t direccion = ABAJO;
 	coordenadas_t posicion;
 	bool parado;
 	
